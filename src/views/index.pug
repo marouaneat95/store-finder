@@ -1,0 +1,37 @@
+//- Anything that starts with "//-" is a non-rendered comment
+//- add the doctype for HTML 5
+doctype html
+//- the HTML tag with the attribute "lang" equal to "en"
+html(lang="en")        
+  head
+    //- this produces a title tag and the "=" means to assign the entire value of pageTitle (passed from our server) between the opening and closing tag
+    title= pageTitle
+  body
+    h1 University Finder
+    form(action="/" method="post")
+      div 
+        label(for="#latitude") Latitude  
+        //- "value=" will pull in the 'latitude' variable in from the server, ignoring it if the variable doesn't exist
+        input#latitude(type="text" name="latitude" value= latitude)
+      div
+        label(for="#longitude") Longitude  
+        input#longitude(type="text" name="longitude" value= longitude)
+        button(type="submit") Find
+      //- "if" is a reserved word in Pug - anything that follows and is indented one more level will only be rendered if the 'results' variable is present
+      if results
+        h2 Showing Results for #{latitude}, #{longitude}
+      each result in results
+                    div
+                          h3 #{result.key}
+                          div
+                            strong Distance: 
+                            | #{result.distance}
+                            | miles
+                            div
+                              strong Coordinates: 
+                              | #{result.latitude}
+                              | , 
+                              | #{result.longitude}
+                              | (
+                                a(href="https://www.openstreetmap.org/#map=18/"+result.latitude+"/"+result.longitude) Map
+                              | )  
